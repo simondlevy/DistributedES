@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import numpy as np
 import gym
 import math
@@ -157,6 +158,8 @@ class NEATAgent:
 
 
 def multi_runs(config):
+    if not os.path.exists('log'):
+        os.makedirs('log')
     fh = logging.FileHandler('log/NEAT-%s.txt' % config.task)
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
