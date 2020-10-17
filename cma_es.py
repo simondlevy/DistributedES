@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import cma
 import numpy as np
 import gym
@@ -9,6 +10,7 @@ from model import *
 from utils import *
 from config import *
 import time
+import os
 
 class Worker(mp.Process):
     def __init__(self, id, state_normalizer, task_q, result_q, stop, config):
@@ -111,6 +113,8 @@ def test(config, solution, stats):
     return np.mean(rewards), np.std(rewards) / config.repetitions
 
 def multi_runs(config):
+    if not os.path.exists('log'):
+        os.makedirs('log')
     fh = logging.FileHandler('log/%s-%s.txt' % (config.tag, config.task))
     fh.setLevel(logging.DEBUG)
     logger.addHandler(fh)
@@ -130,14 +134,14 @@ def all_tasks():
     # config = PendulumConfig(hidden_size)
     # configs.append(config)
 
-    # config = ContinuousLunarLanderConfig(hidden_size)
-    # configs.append(config)
-
-    config = BipedalWalkerConfig(hidden_size)
+    config = ContinuousLunarLanderConfig(hidden_size)
     configs.append(config)
 
-    config = BipedalWalkerHardcore(hidden_size)
-    configs.append(config)
+    #config = BipedalWalkerConfig(hidden_size)
+    #configs.append(config)
+
+    #config = BipedalWalkerHardcore(hidden_size)
+    #configs.append(config)
 
     ps = []
     for cf in configs:
